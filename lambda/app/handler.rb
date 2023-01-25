@@ -1,11 +1,10 @@
 require 'json'
 
-def handler(args)
-  # data = JSON.parse(event.to_json, object_class: OpenStruct)
+def handler(event:, context:)
+  data = JSON.parse(event['body'], object_class: OpenStruct)
 
   return {
     "statusCode": 200,
-    "body": "Hello from lambda",
+    "body": data.event.test,
   }
 end
-
