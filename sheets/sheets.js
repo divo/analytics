@@ -4,12 +4,35 @@
 // original gist: https://gist.github.com/willpatera/ee41ae374d3c9839c2d6 
 // NOTE: Uses es5 javascript
 
+// original from: http://mashe.hawksey.info/2014/07/google-sheets-as-a-database-insert-with-apps-script-using-postget-methods-with-ajax-example/
+// original gist: https://gist.github.com/willpatera/ee41ae374d3c9839c2d6 
+// NOTE: Uses es5 javascript
+//
+// Test:
+// curl --location --request POST 'https://script.google.com/macros/s/AKfycbyXRJne5OD6lszJjbP4vh58oTorHmlgBbD0tmeyOOeazLrLkEXBqoy6EY0D88zr36hY/exec' \
+// --header 'Content-Type: application/json' \
+// --data-raw '{
+//     "sessionId": "9a6a2f6e-d924-47c6-9491-06ea88b3dd55",
+//     "startedAt": "1970-01-01T00:00:00.000Z",
+//     "events": [
+//         {
+//             "sessionId": 1241,
+//             "timestamp": "1970-01-01T00:00:00.000Z",
+//             "event": "accountCreated"
+//         }
+//     ]
+// }'
+
 // handle method: get
 function doGet(e){
+  console.log("GET request with:");
+  console.log(e);
   return handleResponse(e);
 }
 // handles method: post
 function doPost(e){
+  console.log("Post request with:");
+  console.log(e);
   return handleResponse(e);
 }
 
@@ -55,13 +78,14 @@ function handleResponse(e) {
       var params = JSON.parse((e.postData || {}).contents) || {}
       for (var param in e.parameter) { params[param] = e.parameter[param]; }
       
+      // TODO: Analytics
       // first, aggregate previous day sessions if not already
-      if (analytics) dailyTotals(sessions, analytics)
+      //if (analytics) dailyTotals(sessions, analytics)
       
       // add to session sheet
       addToSheet(sessions, [params])
       // add to events sheet
-      if (params.Events && params.Events.length) addToSheet(events, params.Events)
+      if (params.events && params.events.length) addToSheet(events, params.events)
       
       // return json success results
       return ContentService
