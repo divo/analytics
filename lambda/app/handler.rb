@@ -19,6 +19,7 @@ def handler(event:, context:)
   session_data = {
     sessionId: SecureRandom.uuid,
     startedAt: data.events[0].timestamp,
+    userId: data.userId
   }
 
   # Events
