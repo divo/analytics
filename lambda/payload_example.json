@@ -1,0 +1,15 @@
+{
+  "sessionId": "9a6a2f6e-d924-47c6-9491-06ea88b3dd55",
+  "startedAt": "2023-27-01T00:00:00.000Z",
+  "userId": 12,
+  "events": [
+    {
+      "timestamp": "2023-28-01T00:00:00.000Z",
+      "eventName": "docketCreated"
+    },
+    {
+      "timestamp": "2023-27-01T00:00:00.000Z",
+      "eventName": "accountCreated"
+    }
+  ]
+}
