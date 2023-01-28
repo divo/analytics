@@ -6,7 +6,7 @@ import pulumi_aws as aws
 
 region = aws.config.region
 
-custom_stage_name = 'example'
+custom_stage_name = 'analytics_lambda'
 
 ##################
 ## Lambda Function
@@ -83,15 +83,15 @@ rest_invoke_permission = aws.lambda_.Permission("api-rest-lambda-permission",
 ##
 #########################################################################
 
-http_endpoint = aws.apigatewayv2.Api("http-api-pulumi-example",
+http_endpoint = aws.apigatewayv2.Api("http-api-analytics",
     protocol_type="HTTP"
 )
 
-http_lambda_backend = aws.apigatewayv2.Integration("example",
+http_lambda_backend = aws.apigatewayv2.Integration("analytics",
     api_id=http_endpoint.id,
     integration_type="AWS_PROXY",
     connection_type="INTERNET",
-    description="Lambda example",
+    description="Lambda analytics",
     integration_method="POST",
     integration_uri=lambda_func.arn,
     passthrough_behavior="WHEN_NO_MATCH"
@@ -99,13 +99,13 @@ http_lambda_backend = aws.apigatewayv2.Integration("example",
 
 url = http_lambda_backend.integration_uri
 
-http_route = aws.apigatewayv2.Route("example-route",
+http_route = aws.apigatewayv2.Route("analytics-route",
     api_id=http_endpoint.id,
     route_key="ANY /{proxy+}",
     target=http_lambda_backend.id.apply(lambda targetUrl: "integrations/" + targetUrl)
 )
 
-http_stage = aws.apigatewayv2.Stage("example-stage",
+http_stage = aws.apigatewayv2.Stage("analytics-stage",
     api_id=http_endpoint.id,
     route_settings= [
         {
