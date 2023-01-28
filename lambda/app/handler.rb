@@ -7,8 +7,7 @@ require "net/http"
 SHEETS_URL = ENV["SHEETS_URL"]
 
 def handler(event:, context:)
-  data = JSON.parse(event['body'].to_json, object_class: OpenStruct)
-
+  data = JSON.parse(event['body'], object_class: OpenStruct)
 
   raise "Invalid data" if(!data || !data.events)
 
@@ -53,6 +52,5 @@ def handler(event:, context:)
       statusCode: 500,
       body: { msg: e.message }.to_json
     }
-
   end
 end
